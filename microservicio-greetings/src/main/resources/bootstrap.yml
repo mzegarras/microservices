@@ -1,13 +1,13 @@
 server:
-  port: 9100   
+  port: 9001
 spring:
   config:
-    name: helloworld
+    name: parametros
   application:
-    name: helloworld
+    name: greetings
   cloud:
     config:
       enabled: true
       uri: http://localhost:8888
       failFast: true
-             
+      

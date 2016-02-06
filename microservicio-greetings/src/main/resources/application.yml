@@ -1,8 +1,6 @@
 server:
-  port: 9100
+  port: 9001
 spring:
-  application:
-    name: greetings
   cloud:
     config:
       enabled: false
