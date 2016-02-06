@@ -7,10 +7,7 @@ spring:
     name: zuulserver
   application:
     name: zuulserver
-  cloud:
-    config:
-      enabled: true
-      uri: http://localhost:8888
+
 zuul:
   routes:
     greetings:
@@ -19,3 +16,5 @@ zuul:
     helloworld:
       path: /helloworld/**
       service-id: HELLOWORLD
+
+
