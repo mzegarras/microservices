@@ -2,7 +2,7 @@ server:
   port: 9000
 spring:
   application:
-    name: greetings
+    name: helloworld
   cloud:
     config:
       enabled: false

@@ -1,8 +1,6 @@
 server:
   port: 9000
 spring:
-  config:
-    name: parametros
   application:
     name: helloworld
   cloud:
@@ -10,3 +8,4 @@ spring:
       enabled: true
       uri: http://localhost:8888
       failFast: true
+      name: parametros

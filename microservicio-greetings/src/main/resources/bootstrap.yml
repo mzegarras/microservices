@@ -1,8 +1,6 @@
 server:
   port: 9001
 spring:
-  config:
-    name: parametros
   application:
     name: greetings
   cloud:
@@ -10,4 +8,4 @@ spring:
       enabled: true
       uri: http://localhost:8888
       failFast: true
-      
+      name: parametros
