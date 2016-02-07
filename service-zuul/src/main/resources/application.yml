@@ -16,6 +16,9 @@ zuul:
     helloworld:
       path: /helloworld/**
       service-id: HELLOWORLD
+    webdemo:
+      path: /webdemo/**
+      service-id: WEBDEMO
 
 eureka:
   instance:
