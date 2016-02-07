@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    
+    
+    
+	
+	
+	<title th:text="#{logincontroller.login.sistema}">TTT</title>
+	
+	<link rel="icon" th:href="@{/resource/favicon.ico}" type="image/x-icon" />
+	
+    <link th:href="@{/resource/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/fonts/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+
+    <link th:href="@{/resource/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/css/style.css}" rel="stylesheet"/>
+	
+	<div th:replace="fragments/_Bundle :: bundles-jquery"/>
+	
+	
+	<div th:replace="fragments/_Bundle :: plugins-toastr-js" />
+	<div th:replace="fragments/_Bundle :: plugins-toastr-css" />
+	
+
+	<div th:replace="fragments/_Bundle :: plugins-jquery-validate-js" />
+	
+	
+</head>
+
+<body class="gray-bg">
+	
+	 <script type="text/javascript" th:inline="javascript" th:if="${param.error != null}">
+		/*<![CDATA[*/
+		      
+	           $(function() {
+					//toastr.error("Usuario o password incorrecto.", "Error");
+					
+	                
+	                var msg = /*[[#{logincontroller.login.error}]]*/
+	                var title = /*[[#{message.title.error}]]*/
+	                
+	                toastr.error(msg,title);
+	                	
+	           });
+
+		/*]]>*/         
+	</script>
+	
+		<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+	           $(function(){
+	             
+
+	        	   
+	        	   $("#icheckForm").validate({
+	        		   errorPlacement: function (error, element) {
+	                       element.before(error);
+	                   }
+	               });
+	        	   
+	        	   
+	           });
+
+		/*]]>*/         
+	</script>
+	
+	
+	<div class="middle-box loginscreen  animated fadeInDown">
+        <div class="ibox-content">
+            <div class="text-center">
+
+                	<img alt="Logo" th:src="@{/resource/images/logo.png}" width="260px"/>
+            </div>
+            <h3 class="font-bold text-center" th:text="#{logincontroller.login.sistema}">Unibell</h3>
+            
+            
+                    <form id="icheckForm" class="m-t" action="/login" method="post" th:action="@{/login}">
+                        <div class="form-group">
+                        	<label>Usuario</label>
+                            <input id="username" type="text" class="form-control" th:placeholder="#{logincontroller.login.username.placeholder}" required="true" maxlength="20" autocomplete="off" name="username"/>
+                        </div>
+                        <div class="form-group">
+                        	<label>Password</label>
+                            <input id="password" type="password" class="form-control" th:placeholder="#{logincontroller.login.password.placeholder}" required="true" maxlength="20" autocomplete="off" name="password"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary block full-width m-b" th:text="#{logincontroller.login.login}">Login</button>
+
+				        <input type="hidden" name="${_csrf.parameterName}"   value="${_csrf.token}" />
+                    </form>
+          
+                    <p class="m-t text-center">
+                        <small th:text="#{logincontroller.login.copyright}"></small>
+                    </p>
+            
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+
+	

@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="fragments/_Layout">
+<head>
+	<title th:text="#{empresacontroller.register.title}">T</title>
+</head>
+<body>
+	<section layout:fragment="content">
+	
+		<div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2 th:text="#{empresacontroller.index.title}">Titulo</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="#" th:href="@{/company/index}" th:text="#{empresacontroller.index.list.title}">Listado</a>
+                    </li>
+                    <li class="active">
+                        <strong>
+                        	Registro
+                        </strong>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+
+				<div class="col-lg-12">
+					<div class="ibox ">
+						<div class="ibox-title">
+							<h5 th:text="#{empresacontroller.register.title}">Titulo</h5>
+						</div>
+
+						<div class="ibox-content" id="frmData">
+
+							<div th:fragment="formulario" th:remove="tag">
+						
+								<form id="frmRegister" action="#" th:action="@{/company/add}" th:object="${register}" method="post" data-toggle="validator" role="form" class="form-horizontal" >
+									<input type="hidden" th:field="*{id}"/>																	                            				                            
+                            		
+	                                <div class="form-group">
+	                                	<label class="col-sm-2 control-label" for="Description" th:text="#{empresacontroller.register.descripcion}">Descripción</label>
+	                                    <div class="col-sm-10">
+	                                    	<input class="form-control" type="text" th:field="*{description}"
+	                                    		   data-minlength="1" maxlength="50" 
+	                                    		   required="true" th:title="#{message.field.required}"/>
+	                                    </div>
+	                                </div>
+	                                
+	                                <div class="hr-line-dashed"></div>
+	                                
+	                                <div class="form-group">
+	                                	<label class="col-sm-2 control-label" for="Company" th:text="#{empresacontroller.register.empresa}">Empresa</label>
+	                                    <div class="col-sm-10">
+	                                    	<input class="form-control" type="text" th:field="*{company}"
+			                                       data-minlength="1" maxlength="3" pattern="[0-9]"
+			                                       required="true" th:title="#{message.field.required}"/>
+	                                    </div>
+	                                </div>
+	                                
+	                                <div class="hr-line-dashed"></div>
+	                                
+	                                <div class="form-group">
+	                                	<label class="col-sm-2 control-label" for="Order" th:text="#{empresacontroller.register.orden}">Orden</label>
+	                                    <div class="col-sm-10">
+	                                    	<input class="form-control" type="text" th:field="*{order}"
+	                                    		   data-minlength="1" maxlength="3" pattern="[0-9]"
+	                                    		   required="true" th:title="#{message.field.required}"/>
+	                                    </div>
+	                                </div>
+	                                
+	                                <div class="hr-line-dashed"></div>
+	                                
+	                                <div class="form-group">
+	                                	<label class="col-sm-2 control-label" for="Category" th:text="#{empresacontroller.register.rubro}">Rubro</label>
+	                                    <div class="col-sm-10">
+	                                    	<input class="form-control" type="text" th:field="*{category}"
+	                                    		   data-minlength="1" maxlength="3" pattern="[0-9]"
+	                                    		   required="true" th:title="#{message.field.required}"/>
+	                                    </div>
+	                                </div>
+	                                
+	                                <div class="hr-line-dashed"></div>
+	                                
+	                                <div class="form-group">
+	                                	<label class="col-sm-2 control-label" for="Principal" th:text="#{empresacontroller.register.principal}">Principal</label>
+	                                    <div class="col-sm-10">
+	                                    <select class="form-control" th:field="*{principal}">
+	                                    	<option  value="1">Si</option>
+	                                    	<option value="0">No</option>
+	                                    	</select>
+	                                    	<!-- <input class="form-control" type="text" th:field="*{principal}" 
+	                                    		   data-minlength="1" maxlength="3" pattern="[0-9]"
+	                                    		   required="true" th:title="#{message.field.required}"/> -->
+	                                    </div>
+	                                </div>
+	                                
+	                                <div class="hr-line-dashed"></div>
+	                                
+	                                <div class="form-group">
+	                                	<label class="col-sm-2 control-label" for="State" th:text="#{empresacontroller.register.estado}">Estado</label>
+	                                    <div class="col-sm-10">
+	                                    <select class="form-control" th:field="*{state}">
+	                                    	<option  value="1">Activo</option>
+	                                    	<option value="0">Inactivo</option>
+	                                    	</select>
+	                                    	<!-- <input class="form-control" type="text" th:field="*{state}" 
+	                                    	required="true" th:title="#{message.field.required}"/> -->
+	                                    </div>
+	                                </div>
+	                                
+	                                <div class="hr-line-dashed"></div>
+	                                
+	                                <div class="form-group">
+	                                    <div class="col-sm-4 col-sm-offset-2">
+	                                        <button id="btnGrabar" type="button" class="btn btn-primary" >Guadar cambios</button>
+	                                        <button id="btnCancelar" type="button" class="btn btn-white" >Cancelar</button>
+	                                    </div>
+	                                </div>
+						       
+						    	</form>
+						    	
+						    	<script type="text/javascript" th:inline="javascript" th:if="${message}">
+									/*<![CDATA[*/
+							           $(function() {
+							        	  
+							        	var status = /*[[${message.status}]]*/;
+							        	var msg =  /*[[${message.message}]]*/;
+							        	var title = /*[[${message.title}]]*/;
+						
+							 		     if(status==0){
+							 		    	 toastr.success(msg, title, { onHidden: function() {
+							 		    		window.location.href=/*[[@{/company/index}]]*/
+							 		    	}});
+							 		    	
+							 		     
+							 		      }else if(status==1){
+							 		    	 toastr.warning(msg, title);
+							 		      }else if(status==2){	 		    	 
+							 		    	 toastr.error(msg, title);
+							 		      }
+							 		      
+							           });
+									/*]]>*/         
+								</script>
+								
+								<script type="text/javascript" th:inline="javascript">
+									/*<![CDATA[*/
+										 $(function() {
+											  
+											 $("#btnGrabar").click(function(e){
+												 
+												 e.preventDefault();
+												 
+												 if($("#frmRegister").valid()){
+													 
+													 $.ajax({
+												            type: "POST",
+												            url: /*[[@{/company/save}]]*/,
+												            data: $("#frmRegister").serialize(),
+												            success: function(data, textStatus, jqXHR) {
+												            	$("#frmData").html(data);	
+												            }
+												        });
+													 
+												 }
+											 })
+											 
+											 $("#btnCancelar").click(function(){
+												 window.location.href=/*[[@{/company/index}]]*/
+											 })
+											 
+										 });
+									
+									/*]]>*/
+								</script>
+						    
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div th:replace="fragments/_Bundle :: plugins-jsTree-css" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-css" />
+	</section>
+
+	<section layout:fragment="scripts_extras">
+		<div th:replace="fragments/_Bundle :: plugins-jsTree-js" />
+		<div th:replace="fragments/_Bundle :: plugins-chosen-js" />
+		<div th:replace="fragments/_Bundle :: plugins-jquery-validate-js" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-js" />
+	</section>
+
+</body>
+</html>

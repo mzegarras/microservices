@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="fragments/_Layout">
+<head>
+<title th:text="#{ubicanoscontroller.register.title}">T</title>
+</head>
+<body>
+	<section layout:fragment="content">
+
+		<div class="row wrapper border-bottom white-bg page-heading">
+			<div class="col-lg-10">
+				<h2 th:text="#{ubicanoscontroller.index.title}">Titulo</h2>
+				<ol class="breadcrumb">
+					<li><a href="#" th:href="@{/location/index}"
+						th:text="#{ubicanoscontroller.index.list.title}">Listado</a></li>
+					<li class="active"><strong> Registro </strong></li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="wrapper wrapper-content animated fadeInRight">
+			 <div class="row"> 
+
+				<div class="col-lg-11">
+					<div class="ibox ">
+						<div class="ibox-title">
+							<h5 th:text="#{ubicanoscontroller.register.titleimport}">Titulo</h5>
+						</div>
+
+						<div class="ibox-content" id="frmData">
+							 <form action="frmRegister" th:action="@{/location/import}" method="post" enctype="multipart/form-data"> 
+								<div class="input-group m-b">
+									<div class="input-group-btn">
+									
+                                    	<button id="btnCanal" data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button" aria-expanded="true" >Canal <span class="caret"></span></button>
+                                        <ul id="lstCanal" class="dropdown-menu">
+                                        	<li><a>Agentes </a></li>
+                                            <li><a>Cajeros </a></li>
+                                            <li><a>Tiendas </a></li>
+                                            <li><a>Todos </a></li>
+                                        </ul>
+                                    </div>
+									<input type="text" id="select_file" name="select_file" class="form-control" disabled="true"/>
+									<span class="input-group-btn">
+										<label title="Upload image file" for="iptFile" class="btn btn btn-primary" ><input id="iptFile" type="file" name="iptFile" accept=".csv" class="hide"/>...</label> 
+									</span>
+								</div>
+								<div class="btn-group">
+									<a th:href="@{/resource/plantilla/plantilla.csv}" class="btn btn-sm btn-success">Descargar plantilla</a>
+									<br />
+								</div>
+								
+								<div class="btn-group pull-right">
+										<input id="btnImport" type="submit" class="btn btn-primary pull-right m-t-n-xs" disabled="true" th:value="#{ubicanoscontroller.register.button}"/>
+										<input id="btnCancel" type="button" class="btn btn-white pull-right m-t-n-xs" disabled="true" th:value="#{ubicanoscontroller.register.buttonCancel}"/>
+								</div>
+							</form>
+							<div th:fragment="formulario" th:remove="tag">
+								<script type="text/javascript" th:inline="javascript"
+									th:if="${message}">
+									/*<![CDATA[*/
+							           $(function() {
+							        	var status = /*[[${message.status}]]*/;
+							        	var msg =  /*[[${message.message}]]*/;
+							        	var title = /*[[${message.title}]]*/;
+							 		     if(status==0){
+							 		    	 toastr.success(msg, title, { onHidden: function() {
+							 		    		window.location.href=/*[[@{/location/index}]]*/
+							 		    	}});
+							 		      }else if(status==1){
+							 		    	 toastr.warning(msg, title);
+							 		      }else if(status==2){	 		    	 
+							 		    	 toastr.error(msg, title);
+							 		      }
+							           });
+									/*]]>*/         
+								</script>
+								<script type="text/javascript" th:inline="javascript">
+									/*<![CDATA[*/
+										 $(function() {
+										 	var _file;
+										 	var oMyForm;
+													$("#btnImport").click(function(e){
+											 			var filename = $("#iptFile").val();
+											 			var canal = $("#btnCanal").val();
+											 			oMyForm.append("btnCanal", canal);
+												 		e.preventDefault();
+												 	swal({
+								                    	title: "Estas seguro?",
+								                    	text: "Se borrara la información del canal seleccionado para insertar la nueva data!",
+								                    	type: "warning",
+								                    	showCancelButton: true,
+								                    	confirmButtonColor: "#DD6B55",
+								                    	confirmButtonText: "Si, importar data!",
+								                    	cancelButtonText: "No, cancelar!",
+								                    	closeOnConfirm: false,
+								                    	closeOnCancel: false,
+								                    	showLoaderOnConfirm: true},
+								                    	
+								                        function (isConfirm) {
+								                            if (isConfirm) {
+								                            
+  																$.ajax({
+																	    url: /*[[@{/location/import}]]*/,
+																	    data: oMyForm,
+																	    dataType: 'text',
+																	    processData: false,
+																	    contentType: false,
+																	    type: 'POST',
+																	    success: function(data){
+																	    	//setTimeout(function(){
+																		    	var active = 0;
+																		    	var errorMessage = ""; 
+																		    	//alert(data);
+																		    	if(data.length > 8){
+																		    		active = 1;
+																		    		errorMessage = data;
+																		    	}else{
+																		    	var delay=3000; //1 seconds
+																		    		swal({   title: "Insertado!",   
+																		    				text: "Seras redirigido a la pagina de inicio.",   
+																		    				timer: delay,
+																		    				type: "success",   
+																		    				showConfirmButton: false 
+																		    				}); 
+																		    		changeButtonState(true);
+																		    		$("#select_file").val("");
+																		    		$("#btnCanal").html("Canal");
+																		    		$("#iptFile").attr({ value: "" });
+																		    		
+	
+																					setTimeout(function(){
+																					  //your code to be executed after 1 seconds
+																					  window.location.href=/*[[@{/location/index}]]*/
+																					}, delay); 
+																		    		
+																		    	}
+																		    	if(active == 1){
+																		    		swal("Error!",errorMessage, "error"); 
+																		    		changeButtonState(true);
+																		    		$("#select_file").val("");
+																		    		$("#btnCanal").html("Canal");
+																		    		//$('#iptFile').val("");
+																		    		$("#iptFile").attr({ value: "" });
+																		    	}
+																	    	//}, 2000);
+																	    }
+																	  });								            				
+								                            } else {
+								                                swal("Cancelado!", "No se logro importar el archivo", "error");
+								                            }
+								                        });
+											 		})
+											 
+											 	$("#btnCancel").click(function(){
+												 	window.location.href=/*[[@{/location/index}]]*/
+											 	})
+											 	$('#iptFile').click(function() {
+													$('#iptFile').change(function() {
+												    	var filename = $('#iptFile').val().trim();
+												        //if(filename.length>0){
+											        	$('#select_file').val(filename);
+											        	oMyForm = new FormData();
+														oMyForm.append("iptFile", this.files[0]);
+											        	//alert($("#btnCanal").html().indexOf("Canal"));
+											        	if($("#btnCanal").html().indexOf("Canal") > -1 ){
+											        		
+												    		swal({
+												            	title: "Por favor seleccione un Canal",
+																type: "warning",
+												                text: "Es importante saber el canal al cual vamos a ingresar la data."
+												                });
+											        	}else{
+											        		changeButtonState(false);
+											        	}
+												    });
+												});
+											  $("#lstCanal li").click(function() {
+											  		var canal =$(this).html().replace("<a>", "").replace("</a>", "").replace(" <span class=\"caret\"></span>","");
+													$("#btnCanal").html(canal + " <span class=\"caret\"></span>");
+													
+													if(canal.trim() == "Agentes"){
+														canal = "DIR";	
+													} else if(canal.trim() == "Cajeros"){
+														canal = "ATM";
+													} else if(canal.trim() == "Tiendas"){
+														canal = "STR";
+													} else if(canal.trim() == "Todos"){
+														canal = "ALL";
+													}
+													
+													$("#btnCanal").val(canal);
+											  		if($("#select_file").val().trim().length > 0){
+											    		changeButtonState(false);
+											    	}
+												});
+										 });
+										function changeButtonState(state) {
+										    $('#btnCancel').prop('disabled', state);
+											$('#btnImport').prop('disabled', state);
+										}
+									/*]]>*/
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+			 </div>
+		</div>
+		
+		<div th:replace="fragments/_Bundle :: plugins-jsTree-css" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-css" />
+		<div th:replace="fragments/_Bundle :: plugins-sweetAlert-css" />
+		
+	</section>
+	
+	<section layout:fragment="scripts_extras">
+	
+		<div th:replace="fragments/_Bundle :: plugins-jsTree-js" />
+		<div th:replace="fragments/_Bundle :: plugins-chosen-js" />
+		<div th:replace="fragments/_Bundle :: plugins-jquery-validate-js" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-js" />
+		<div th:replace="fragments/_Bundle :: plugins-sweetAlert-js" />
+		
+	</section>
+</body>
+</html>

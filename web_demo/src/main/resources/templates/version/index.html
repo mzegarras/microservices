@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="fragments/_Layout">
+	<head>
+		<title th:text="#{versioncontroller.index.title}">T</title>
+		
+	</head>
+<body>
+	<section layout:fragment="content">
+
+	
+
+
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+			
+				<div class="col-lg-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5 th:text="#{versioncontroller.index.subtitle}">Titulo</h5>
+							<div class="ibox-tools">
+								<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+								</a> <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<i class="fa fa-wrench"></i>
+								</a>
+								
+								
+							</div>
+						</div>
+						<div class="ibox-content">
+								
+								
+                        		<a href="#" th:href="@{/version/add}" class="btn btn-primary" th:text="#{versioncontroller.index.new}">Nuevo</a>
+
+							<table
+								class="table table-striped table-bordered table-hover dataTables-example">
+								<thead>
+									<tr>
+									
+										<th th:text="#{versioncontroller.index.list.descripcion}">Descrip</th>
+									
+										<th th:text="#{versioncontroller.index.list.edicion}">Edic</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+
+		<div th:replace="fragments/_Bundle :: plugins-datatable-css" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-css" />
+
+	</section>
+
+
+
+	<section layout:fragment="scripts_extras">
+
+		<div th:replace="fragments/_Bundle :: plugins-datatable-js" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-js" />
+
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/
+
+			$(function() {
+				
+				
+				
+				$('.dataTables-example').dataTable({
+					"processing": true,
+	                "serverSide": true,
+	                ajax: {
+	                    url: /*[[@{/version/list}]]*/,
+	                    type: 'POST',
+	                    contentType: 'application/json',
+	                    dataType: 'json',
+	                    data: function ( d ) {
+	                        return JSON.stringify( d );
+	                      }
+	                },
+	                "columns": [
+	                    { "data": "name" },
+	                   
+	                ],
+	                "columnDefs": [
+	                               {
+	                                   "render": function (data, type, row) {
+	                                	   
+	                                       
+	                                	   var url_editar = /*[[@{/version/edit}]]*/;
+	                                       url_editar = url_editar.concat("/" +  row.id);
+	                                       
+	                                       var url_eliminar = /*[[@{/version/delete}]]*/;
+	                                       url_eliminar = url_eliminar.concat("/" +  row.id);
+											
+	                                       
+	                                       
+	                                       var link_eliminar = '<a class="remove" href="' + url_eliminar + '"><span class="glyphicon glyphicon-trash"></span></a>'
+	                                       
+	                                       var link_editar =  '<a class="edit" href="' + url_editar +  '"><span class="glyphicon glyphicon-pencil"></span></a>'
+	                                    	   
+	                                       return link_editar + "&nbsp;" + link_eliminar
+	
+	                                   },
+	                                   "targets": [1]
+	                               }
+	                           ]
+	            });
+				
+				
+				$('.dataTables-example').on('click', 'a.remove', function (e) {
+				    e.preventDefault();
+				 	
+				   
+				    
+				    var table = $('.dataTables-example').dataTable();
+				    var fila = $(this).parents('tr')[0];
+				    var data = table.fnGetData(fila);
+				    
+				    
+				    var urlDelete = /*[[@{/version/delete}]]*/;
+				    
+				    $.ajax({
+		    	                url: urlDelete + "/" + data.id,
+		    	                type:  'POST',
+		    	                contentType: 'application/json',
+		    	                dataType: 'json',
+		    	                success:  function (response) {
+		    	                	table.fnDeleteRow(table.fnGetPosition(fila));
+		    	                	
+		    	                	if(response.status==0){
+					 		    	 	toastr.success(response.message, response.title);
+					 		      	}else if(response.status==2){	 		    	 
+					 		    		 toastr.error(response.message, response.title);
+					 		      	}
+		    	                
+		    	                }
+				     });
+					  
+				} );
+				
+				 
+			});
+
+			/*]]>*/
+		</script>
+
+
+
+
+	</section>
+
+
+
+
+</body>
+</html>
+

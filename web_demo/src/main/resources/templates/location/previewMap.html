@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="fragments/_Layout">
+<head>
+	<title th:text="#{ubicanoscontroller.previewmap.title}">T</title>
+</head>
+<body>
+	<section layout:fragment="content">
+    
+        <div class="row wrapper border-bottom white-bg page-heading">
+			<div class="col-lg-10">
+				<h2 th:text="#{ubicanoscontroller.index.subtitle}">Titulo</h2>
+				<ol class="breadcrumb">
+					<li><a href="#" th:href="@{/location/index}"
+						th:text="#{ubicanoscontroller.index.list.title}">Listado</a></li>
+					<li class="active"><strong> Vista Previa </strong></li>
+				</ol>
+			</div>
+		</div>
+        
+        
+        <div class="wrapper wrapper-content  animated fadeInRight">
+
+<!--
+ You need to include this script on any page that has a Google Map.
+ When using Google Maps on your own site you MUST signup for your own API key at:
+ https://developers.google.com/maps/documentation/javascript/tutorial#api_key
+ After your sign up replace the key in the URL below..
+-->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Canales de atención</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="google-map" id="map1" style="height:400px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript" th:inline="javascript">
+        
+	        // When the window has finished loading google map
+	        google.maps.event.addDomListener(window, 'load', init);
+	
+	        function init() {
+		        var latitude = -12.0453;
+	            var longitude = -77.0311;
+	            var center = new google.maps.LatLng(latitude,longitude);
+	            
+	            mapOptions = {
+	                center: center,
+	                zoom: 11,
+	                mapTypeId: google.maps.MapTypeId.ROADMAP,
+	                scrollwheel: false
+	            };
+	            
+	            // Get all html elements for map
+	            var mapElement = document.getElementById('map1');
+	
+	            // Create the Google Map using elements
+	            var map = new google.maps.Map(mapElement, mapOptions);
+	
+		        setMarkers(center, map);
+			 }
+			 
+			 function setMarkers(center, map) {
+			 	var bounds = new google.maps.LatLngBounds();
+			 	
+			 	$.ajax({
+			            type: 'GET',
+			            url: /*[[@{/location/listAll}]]*/,
+			            contentType: 'application/json',
+			            dataType: 'json',
+			            success: function(data) {
+			            	if (data.length !== 0) {
+				
+					          $.each(data, function(marker, data) {
+					            var latLng = new google.maps.LatLng(data.latitude, data.longitude);
+					            bounds.extend(latLng);
+					            
+					            var rutaImagenes = [[@{/resource/images/}]];
+			            
+			            		var iconCajero = rutaImagenes + 'icono_map_cajero.png';
+			            		var iconAgente = rutaImagenes + 'icono_map_agente.png';
+			            		var iconTienda = rutaImagenes + 'icono_map_tienda.png';
+			            		
+			            		var iconPinMap = iconCajero;
+			            		
+			            		if (data.channelId == 'ATM') {
+			            			iconPinMap = iconCajero;
+			            		} else if (data.channelId == 'DIR') {
+			            			iconPinMap = iconAgente;
+			            		} else if (data.channelId == 'STR') {
+			            			iconPinMap = iconTienda;
+			            		}
+					
+					            var marker = new google.maps.Marker({
+					              position: latLng,
+					              map: map,
+					              icon: iconPinMap,
+					              title: data.locationName
+					            });
+					
+					            var content = '<h3>' + data.locationName + '</h3>' +
+					              			  '<p>' + data.address + '</p>';
+					
+		                		infoBox(map, marker, content);
+					          });
+				          
+				          	  //map.fitBounds(bounds);
+				          }	
+			         }
+			    });
+			 	
+			 	/*
+			 	$.ajax({
+			      type: "GET",
+			      url: 'https://raw.githubusercontent.com/roryheaney/jsonexample/master/locatoins.json',
+			      dataType: "json",
+			      success: function(data) {
+			
+			        if (data.length !== 0) {
+			
+			          $.each(data, function(marker, data) {
+			            var latLng = new google.maps.LatLng(data.lat, data.lng);
+			            bounds.extend(latLng);
+			            
+			            var rutaImagenes = [[@{/resource/images/}]];
+			            
+			            var var_pin = rutaImagenes + "icono_map_cajero.png";
+			            
+			            var marker = new google.maps.Marker({
+			              position: latLng,
+			              map: map,
+			              icon: var_pin,
+			              title: data.title
+			            });
+			
+			            var content = '<h3>' + data.title + '</h3>' +
+			              			  '<p>' + data.description + '</p>';
+			
+                		infoBox(map, marker, content);
+			          });
+			          
+			          map.fitBounds(bounds);
+			        }
+			
+			      },
+			      error: function(data) {
+			        console.log('Por favor vuelve a intentar despues.');
+			      }
+			    });
+				*/
+			 }
+		     
+		     function infoBox(map, marker, content) {
+		        var infoWindow = new google.maps.InfoWindow();
+		        // Attaching a click event to the current marker
+		        google.maps.event.addListener(marker, "click", function(e) {
+		            infoWindow.setContent(content);
+		            infoWindow.open(map, marker);
+		        });
+		
+		        // Creating a closure to retain the correct data 
+		        // Note how I pass the current data in the loop into the closure (marker, data)
+		        (function(marker, content) {
+		          // Attaching a click event to the current marker
+		          google.maps.event.addListener(marker, "click", function(e) {
+		            infoWindow.setContent(content);
+		            infoWindow.open(map, marker);
+		          });
+		        })(marker, content);
+		     }
+	    </script>
+
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-css" />
+
+	</section>
+
+	<section layout:fragment="scripts_extras">
+		
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-js" />
+	
+	</section>
+	
+</body>
+</html>

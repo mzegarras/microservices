@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="fragments/_Layout">
+<head>
+<title layout:title-pattern="#{versioncontroller.register.title}">Listado</title>
+</head>
+<body>
+	<section layout:fragment="content">
+
+
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+			
+				<div class="col-lg-12">
+					<div class="ibox ">
+						<div class="ibox-title">
+							<h5 th:text="#{versioncontroller.register.title}">Titulo</h5>
+						</div>
+						
+						<div class="ibox-content" id="frmData">
+						
+							<div th:fragment="formulario"  th:remove="tag">
+							
+								<form id="frmRegister" action="#" th:action="@{/version/add}" th:object="${register}" method="post" data-toggle="validator" role="form">
+										<input type="hidden" th:field="*{id}"/>
+																												                            				                            
+	                            		<div class="form-group" th:class="${#fields.hasErrors('name')}? 'form-group has-error'" >
+			                                <label class="col-md-2 control-label" for="Name" th:text="#{versioncontroller.register.descripcion}">Descripción</label>
+			                                <div class="input-group">
+													<input type="text" th:placeholder="#{versioncontroller.register.descripcion.placeholder}" data-minlength="1"  maxlength="20" class="form-control"  th:field="*{name}" required="true" data-mask="9.9.9"/>
+													<span class="help-block with-errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Please correct the error</span>
+			                                </div>
+			                            </div>
+			                            
+										<div class="form-group">
+			                          		<div class="checkbox i-checks"><label><input type="checkbox" th:field="*{mandatory}"/><i></i><label th:text="#{versioncontroller.register.mandatory}">distribuidor</label></label></div>
+			                            	<div class="checkbox i-checks"><label><input type="checkbox" th:field="*{android}"/> <i></i><label th:text="#{versioncontroller.register.ios}">distribuidor</label></label></div>
+											<div class="checkbox i-checks"><label><input type="checkbox" th:field="*{ios}"/> <i></i><label th:text="#{versioncontroller.register.android}">distribuidor</label></label></div>
+										</div>
+										
+							           <input id="btnGrabar2" type="button" class="btn btn-primary" value="Crear"/>
+							           <input id="btnCancelar2" type="button" class="btn btn-defaut" value="Cancelar"/>
+							       
+							    </form>
+							    
+							    
+							    <script type="text/javascript" th:inline="javascript" th:if="${message}">
+										/*<![CDATA[*/
+										      
+									           $(function() {
+									        	  
+									        	var status = /*[[${message.status}]]*/;
+									        	var msg =  /*[[${message.message}]]*/;
+									        	var title = /*[[${message.title}]]*/;
+									       
+									        	  
+									        	
+									 		     if(status==0){
+									 		    	 toastr.success(msg, title, { onHidden: function() {
+									 		    		window.location.href=/*[[@{/version/index}]]*/
+									 		    	}});
+									 		    	
+									 		     
+									 		      }else if(status==1){
+									 		    	 toastr.warning(msg, title);
+									 		      }else if(status==2){	 		    	 
+									 		    	 toastr.error(msg, title);
+									 		      }
+									 		      
+									           });
+										/*]]>*/         
+									</script>
+									
+							    
+							    <script type="text/javascript" th:inline="javascript">
+									/*<![CDATA[*/
+										 $(function() {
+											 
+											  $('.i-checks').iCheck({
+							                      checkboxClass: 'icheckbox_square-green',
+							                      radioClass: 'iradio_square-green',
+							                  });
+							                  
+											  
+											 $("#btnGrabar2").click(function(e){
+												 
+												 e.preventDefault();
+												 
+												 if($("#frmRegister").valid()){
+													 
+													 $.ajax({
+												            type: "POST",
+												            url: /*[[@{/version/save}]]*/,
+												            data: $("#frmRegister").serialize(),
+												            success: function(data, textStatus, jqXHR) {
+												            	$("#frmData").html(data);	
+												            }
+												        });
+													 
+												 }
+											 })
+											 
+											 $("#btnCancelar2").click(function(){
+												 window.location.href=/*[[@{/version/index}]]*/
+											 })
+											 
+										 });
+									
+									/*]]>*/
+								</script>
+							
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		
+	
+		<div th:replace="fragments/_Bundle :: plugins-iCheck-css" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-css" />
+		
+		
+	</section>
+
+		<section layout:fragment="scripts_extras">
+			<div th:replace="fragments/_Bundle :: plugins-chosen-js" />
+			<div th:replace="fragments/_Bundle :: plugins-jquery-validate-js" />
+			
+			<div th:replace="fragments/_Bundle :: plugins-iCheck-js" />
+			
+			<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-js" />
+
+
+
+		</section>
+
+
+	
+		
+	
+
+
+
+
+</body>
+</html>

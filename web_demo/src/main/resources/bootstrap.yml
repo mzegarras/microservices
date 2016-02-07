@@ -1,0 +1,11 @@
+server:
+  port: 8889
+spring:
+  application:
+    name: webdemo
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
+      failFast: true
+      name: messages

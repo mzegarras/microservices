@@ -1,0 +1,17 @@
+server:
+  port: 8889
+spring:
+  application:
+    name: webdemo
+  cloud:
+    config:
+      enabled: false
+endpoints:
+  shutdown:
+    enabled: true
+  restart:
+    enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

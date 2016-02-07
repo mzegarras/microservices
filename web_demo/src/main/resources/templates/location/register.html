@@ -1,0 +1,461 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="fragments/_Layout">
+<head>
+<title th:text="#{ubicanoscontroller.register.title}">T</title>
+</head>
+<body>
+	<section layout:fragment="content">
+
+		<div class="row wrapper border-bottom white-bg page-heading">
+			<div class="col-lg-10">
+				<h2 th:text="#{ubicanoscontroller.index.title}">Titulo</h2>
+				<ol class="breadcrumb">
+					<li><a href="#" th:href="@{/location/index}"
+						th:text="#{ubicanoscontroller.index.list.title}">Listado</a></li>
+					<li class="active"><strong> Registro </strong></li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+
+				<div class="col-lg-12">
+					<div class="ibox ">
+						<div class="ibox-title">
+							<h5 th:text="#{ubicanoscontroller.register.title}">Titulo</h5>
+						</div>
+
+						<div class="ibox-content" id="frmData">
+
+							<div th:fragment="formulario" th:remove="tag">
+
+								<form id="frmRegister" action="#" th:action="@{/location/add}"
+									th:object="${register}" method="post" data-toggle="validator"
+									role="form" class="form-horizontal">
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="LocationId"
+											th:text="#{ubicanoscontroller.register.codigo}">Código</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" th:placeholder="#{ubicanoscontroller.register.codigo}"
+												th:field="*{locationId}" data-minlength="1" maxlength="8"
+												required="true" id="txtCodigoLocation"
+												th:title="#{message.field.required}" />
+										</div>
+									</div>
+
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="LocationName"
+											th:text="#{ubicanoscontroller.register.descripcion}">Descripción</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" th:placeholder="#{ubicanoscontroller.register.descripcion}"
+												th:field="*{locationName}" data-minlength="1" maxlength="100" 
+												required="true"
+												th:title="#{message.field.required}" />
+										</div>
+									</div>
+
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="StoreId"
+											th:text="#{ubicanoscontroller.register.codigowallie}">Código Wallie</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="number" th:placeholder="#{ubicanoscontroller.register.codigowallie}"
+												th:field="*{storeId}"
+												data-minlength="1" maxlength="5" min="0" max="900"/>
+										</div>
+									</div>
+
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="Address"
+											th:text="#{ubicanoscontroller.register.direccion}">Dirección</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" th:placeholder="#{ubicanoscontroller.register.direccion}"
+												th:field="*{address}"
+												data-minlength="1" maxlength="100" required="true"
+												th:title="#{message.field.required}" />
+										</div>
+									</div>
+									
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+                                        <label class="col-sm-2 control-label" for="Latitude"
+                                            th:text="#{ubicanoscontroller.register.latitud}">Latitud</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" th:placeholder="#{ubicanoscontroller.register.latitud}"
+                                                th:field="*{latitude}" data-minlength="1" maxlength="20"
+                                                required="true" th:title="#{message.field.required}" onchange="validateHhMm(this,1);"/>
+                                        </div>
+                                        
+                                        <label class="col-sm-1 control-label" for="Longitude"
+                                            th:text="#{ubicanoscontroller.register.longitud}">Longitud</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" th:placeholder="#{ubicanoscontroller.register.longitud}"
+                                                th:field="*{longitude}" data-minlength="1" maxlength="20"
+                                                required="true" th:title="#{message.field.required}" onchange="validateHhMm(this,1);"/>
+                                        </div>
+                                    </div>
+
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+                                        <label class="col-sm-2 control-label" for="ChannelId"
+                                            th:text="#{ubicanoscontroller.register.canal}">Canal</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" th:field="*{channelId}" id="cboCanal">
+                                                <option value="STR" selected="true">Tienda</option>
+                                                <option value="ATM">Cajero</option>
+                                                <option value="DIR">Agente</option>
+                                               
+                                            </select>
+                                        </div>
+                                    </div>
+
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+                                        <label class="col-sm-2 control-label"></label>
+
+                                        <div class="col-sm-3">
+                                            <label class="col-sm-2 control-label" for="Department" 
+                                                th:text="#{ubicanoscontroller.register.departamento}">Departamento</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="col-sm-2 control-label" for="Province" 
+                                                th:text="#{ubicanoscontroller.register.provincia}">Provincia</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="col-sm-2 control-label" for="District" 
+                                                th:text="#{ubicanoscontroller.register.distrito}">Distrito</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"></label>
+                                        
+                                        <div class="col-sm-3">
+                                            <input id="txtDepartamento" class="form-control" type="text" th:placeholder="#{ubicanoscontroller.register.departamento}"
+                                                th:field="*{department}" data-minlength="1" maxlength="100"
+                                                required="true" th:title="#{message.field.required}"  />
+                                        </div>
+                                        
+                                        <div class="col-sm-3">
+                                            <input id="txtProvincia" class="form-control" type="text" th:placeholder="#{ubicanoscontroller.register.provincia}"
+                                                th:field="*{province}" data-minlength="1" maxlength="100"
+                                                required="true" th:title="#{message.field.required}"  />
+                                        </div>
+                                        
+                                        <div class="col-sm-3">
+                                            <input id="txtDistrito" class="form-control" type="text" th:placeholder="#{ubicanoscontroller.register.distrito}"
+                                                th:field="*{district}" data-minlength="1" maxlength="100"
+                                                required="true" th:title="#{message.field.required}"  />
+                                        </div>
+                                    </div>
+
+									<div class="hr-line-dashed"></div>
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="State"
+											th:text="#{ubicanoscontroller.register.estado}">Estado</label>
+										<div class="col-sm-9">
+											<select class="form-control" th:field="*{state}">
+												<option value="1">Activo</option>
+												<option value="0">Inactivo</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="hr-line-dashed"></div>
+									<div class="panelfecha">
+										<div class="form-group">
+											<label class="col-sm-2 control-label"></label>
+	
+											<div class="col-sm-3">
+												<label th:text="#{ubicanoscontroller.register.horainicio}">Hora Inicio</label>
+											</div>
+											<div class="col-sm-3">
+												<label th:text="#{ubicanoscontroller.register.horafin}">Hora Fin</label>
+											</div>
+										</div>
+										
+										<div class="form-group" th:each="row, stat : *{schedule}">
+											<input type="hidden" th:field="*{schedule[__${stat.index}__].dayId}" />
+											<input type="hidden" th:field="*{schedule[__${stat.index}__].day}" /> 
+											<label class="col-sm-2 control-label" th:text="${row.day}">Dia</label>
+										
+											<div class="col-sm-3">
+												<input th:id="txtStart + ${stat.index}" class="form-control" type="text" data-minlength="1"
+													maxlength="5" data-mask="99:99" th:placeholder="#{ubicanoscontroller.register.horainicio}"
+													th:field="*{schedule[__${stat.index}__].startHour}" onchange="validateHhMm(this,0);"/>
+												<div class="form-group has-error">
+														<label th:id="lblStart + ${stat.index}" class="col-lg control-label" ></label>
+												</div>
+											</div>
+											
+											<div class="col-sm-3">
+												<input th:id="txtEnd + ${stat.index}" class="form-control" type="text" data-minlength="1"
+													maxlength="5" data-mask="99:99" th:placeholder="#{ubicanoscontroller.register.horafin}"
+													th:field="*{schedule[__${stat.index}__].endHour}" onchange="validateHhMm(this,0);"/>
+												<div class="form-group has-error">
+														<label th:id="lblEnd + ${stat.index}" class="col-lg control-label" ></label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="hr-line-dashed"></div>
+									
+									<div class="form-group">
+										<div class="col-sm-4 col-sm-offset-2">
+											<button id="btnGrabar" type="button" class="btn btn-primary">Guardar cambios</button>
+											<button id="btnCancelar" type="button" class="btn btn-white">Cancelar</button>
+										</div>
+									</div>
+
+								</form>
+
+								<script type="text/javascript" th:inline="javascript"
+									th:if="${message}">
+									/*<![CDATA[*/
+							           $(function() {
+							        	  
+							        	var status = /*[[${message.status}]]*/;
+							        	var msg =  /*[[${message.message}]]*/;
+							        	var title = /*[[${message.title}]]*/;
+						
+							 		     if(status==0){
+							 		    	 toastr.success(msg, title, { onHidden: function() {
+							 		    		window.location.href=/*[[@{/location/index}]]*/
+							 		    	}});
+							 		    	
+							 		     
+							 		      }else if(status==1){
+							 		    	 toastr.warning(msg, title);
+							 		      }else if(status==2){	 		    	 
+							 		    	 toastr.error(msg, title);
+							 		      }
+							 		      
+							           });
+							           
+									/*]]>*/         
+								</script>
+
+								<script type="text/javascript" th:inline="javascript">
+									/*<![CDATA[*/
+										 $(function() {
+											  	var state = /*[[${locstate}]]*/;
+											  	var channel = /*[[${register.channelId}]]*/;
+											  //	alert(channel);
+											  	muestraPaneles(channel);
+											  	if(state ==  "nuevo"){
+											  		$("#txtCodigoLocation").prop('readonly','');
+											  	}
+											  	if(state ==  "editar"){
+											  		$("#txtCodigoLocation").prop('readonly','readonly');
+											  	}
+											  
+											 $("#btnGrabar").click(function(e){
+												 if(validateTxt()){
+												 	 if($("#frmRegister").valid()){
+													 	$.ajax({
+												        	type: "POST",
+												            url: /*[[@{/location/save}]]*/,
+												            data: $("#frmRegister").serialize(),
+												            success: function(data, textStatus, jqXHR) {
+												            	$("#frmData").html(data);	
+												            }
+												        });
+													 }
+												 }
+											 })
+											 
+											 $("#btnCancelar").click(function(){
+												 window.location.href=/*[[@{/location/index}]]*/
+											 })
+											   
+											 $("#txtDistrito").keypress(function (key) {
+										            window.console.log(key.charCode)
+										            if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+										                && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+										                && (key.charCode != 45) //retroceso
+										                && (key.charCode != 241) //ñ
+										                 && (key.charCode != 209) //Ñ
+										                 && (key.charCode != 32) //espacio
+										                 && (key.charCode != 225) //á
+										                 && (key.charCode != 233) //é
+										                 && (key.charCode != 237) //í
+										                 && (key.charCode != 243) //ó
+										                 && (key.charCode != 250) //ú
+										                 && (key.charCode != 193) //Á
+										                 && (key.charCode != 201) //É
+										                 && (key.charCode != 205) //Í
+										                 && (key.charCode != 211) //Ó
+										                 && (key.charCode != 218) //Ú
+										 
+										                )
+										                return false;
+										        });
+											 $("#txtProvincia").keypress(function (key) {
+										            window.console.log(key.charCode)
+										            if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+										                && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+										                && (key.charCode != 45) //retroceso
+										                && (key.charCode != 241) //ñ
+										                 && (key.charCode != 209) //Ñ
+										                 && (key.charCode != 32) //espacio
+										                 && (key.charCode != 225) //á
+										                 && (key.charCode != 233) //é
+										                 && (key.charCode != 237) //í
+										                 && (key.charCode != 243) //ó
+										                 && (key.charCode != 250) //ú
+										                 && (key.charCode != 193) //Á
+										                 && (key.charCode != 201) //É
+										                 && (key.charCode != 205) //Í
+										                 && (key.charCode != 211) //Ó
+										                 && (key.charCode != 218) //Ú
+										 
+										                )
+										                return false;
+										        });
+											 $("#txtDepartamento").keypress(function (key) {
+										            window.console.log(key.charCode)
+										            if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+										                && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+										                && (key.charCode != 45) //retroceso
+										                && (key.charCode != 241) //ñ
+										                 && (key.charCode != 209) //Ñ
+										                 && (key.charCode != 32) //espacio
+										                 && (key.charCode != 225) //á
+										                 && (key.charCode != 233) //é
+										                 && (key.charCode != 237) //í
+										                 && (key.charCode != 243) //ó
+										                 && (key.charCode != 250) //ú
+										                 && (key.charCode != 193) //Á
+										                 && (key.charCode != 201) //É
+										                 && (key.charCode != 205) //Í
+										                 && (key.charCode != 211) //Ó
+										                 && (key.charCode != 218) //Ú
+										 
+										                )
+										                return false;
+										        });
+												$("#cboCanal").change(function () {
+													var departmentId = $(this).val();
+													muestraPaneles(departmentId);
+			     									/*if(departmentId == "ATM"){
+			     										$(".panelfecha").hide();
+			     									}
+			     									else if(departmentId == "DIR"){
+			     										$(".panelfecha").hide();
+			     									}
+			     									else if(departmentId == "STR"){
+			     										$(".panelfecha").show();
+			     									}*/
+			     						       });
+										 });
+										 function muestraPaneles(departmentId){
+										 	if(departmentId == "ATM"){
+	     										$(".panelfecha").hide();
+	     									}
+	     									else if(departmentId == "DIR"){
+	     										$(".panelfecha").hide();
+	     									}
+	     									else if(departmentId == "STR"){
+	     										$(".panelfecha").show();
+	     									}
+										 }
+										 function validateTxt() {
+											var result = true;
+											for (var i = 0; i< 7; i++) { 
+												var lblEnd = "#lblEnd" + i;
+												var lblStart = "#lblStart" + i;
+												$(lblStart).empty();
+												$(lblEnd).empty();
+											}
+											for (var i = 0; i< 7; i++) { 
+												var txtEnd = "#txtEnd" + i;
+												var txtStart = "#txtStart" + i;
+												var lblEnd = "#lblEnd" + i;
+												var lblStart = "#lblStart" + i;
+												if($(txtStart).val().trim().length > 0 || $(txtEnd).val().trim().length  > 0){
+													//START
+													if($(txtStart).val().trim().length > 0){
+														$(lblStart).empty();
+													}
+													else{
+														$(lblStart).append("Ingrese el campo requerido.");
+														result = false;
+													}
+													//END
+													if($(txtEnd).val().length > 0){
+														$(lblEnd).empty();
+													}
+													else{
+														$(lblEnd).append("Ingrese el campo requerido.");
+														result = false;
+													}
+													if($(txtStart).val().trim().length > 0 && $(txtEnd).val().trim().length  > 0){
+														var numStart = $(txtStart).val().trim().replace(":","");
+														var numEnd = $(txtEnd).val().trim().replace(":","");
+														if(numStart > numEnd){
+															$(lblStart).append("No puede ser mayor a la hora final.");
+															result = false;
+														}else if(numStart == numEnd){
+															$(lblStart).append("No puede ser igual a la hora final.");
+															result = false;
+														}
+													}
+												}
+											}
+											return result;
+										}	
+									/*]]>*/
+									
+									function validateHhMm(inputField,dato) {
+										        var isValid = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.value);
+												if(dato == 1){
+													isValid = /^-?([0-8]?[0-9]|[0-9]0)\.{0}\d{0,6}/.test(inputField.value);
+												}else if(dato == 2){
+													isValid = /[A-Za-z\s]/.test(inputField.value);
+												}
+										        if (isValid) {
+										        } else {
+										            inputField.value = "";
+										        }
+										
+										    	return isValid;
+									    	}
+									    	
+								</script>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div th:replace="fragments/_Bundle :: plugins-jsTree-css" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-css" />
+	</section>
+
+	<section layout:fragment="scripts_extras">
+		<div th:replace="fragments/_Bundle :: plugins-jsTree-js" />
+		<div th:replace="fragments/_Bundle :: plugins-chosen-js" />
+		<div th:replace="fragments/_Bundle :: plugins-jquery-validate-js" />
+		<div th:replace="fragments/_Bundle :: plugins-jasnyBootstrap-js" />
+	</section>
+
+</body>
+</html>

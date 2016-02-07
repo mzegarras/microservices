@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration
 public class MessageController {
 
-	@Value("${nombre}")
+	@Value("${homeController.index.title}")
 	private String nombre;
+	
+	@Value("${navigation.menu.home}")
+	private String nombre1;
 
 	@RequestMapping("/")
 	ResponseEntity<Message> home() {
-		return new ResponseEntity(new Message("Hello " + nombre), HttpStatus.ACCEPTED);
+		return new ResponseEntity(new Message("Hello " + nombre + nombre1), HttpStatus.ACCEPTED);
 	}
 }
