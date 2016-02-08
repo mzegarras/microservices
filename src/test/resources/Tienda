@@ -1,0 +1,277 @@
+
+CREATE TABLE POS_DB.Pais(
+	paisId INT NOT NULL,
+	codigoPais varchar(10) NULL,
+	descripcion varchar(200) NULL,
+	PRIMARY KEY(paisId));
+CREATE TABLE POS_DB.TallaProducto(
+	tallaProductoId INT NOT NULL,
+	codigotallaProducto varchar(10) NULL,
+	nombre varchar(50) NULL,
+	descripcion varchar(200) NULL,
+	PRIMARY KEY(tallaProductoId));
+CREATE TABLE POS_DB.ColorProducto(
+	colorProductoId INT NOT NULL,
+	codigoColorProducto varchar(10) NULL,
+	nombre varchar(50) NULL,
+	descripcion varchar(200) NULL,
+	PRIMARY KEY(colorProductoId));
+CREATE TABLE POS_DB.Moneda(
+	monedaId INT NOT NULL,
+	codigoMoneda varchar(10) NULL,
+	descripcion varchar(200) NULL,
+	paisId INT NULL,#LLAVE FORANEA
+	PRIMARY KEY(monedaId));
+CREATE TABLE POS_DB.Facturador(
+	facturadorId INT NOT NULL,
+	codigoFacturador varchar(10) NULL,
+	descripcion varchar(200) NULL,
+	PRIMARY KEY(facturadorId));
+CREATE TABLE POS_DB.MarcaProducto(
+	marcaProductoId INT NOT NULL,
+	codigoMarcaProducto varchar(10) NULL,
+	nombre varchar(50) NULL,
+	descripcion varchar(200) NULL,
+	PRIMARY KEY(marcaProductoId));
+CREATE TABLE POS_DB.TipoTienda(
+	tipoTiendaid INT NOT NULL,
+	codigoTienda varchar(10) NULL,
+	nombre varchar(50) NULL
+	descripcion varchar(200) NULL,
+	PRIMARY KEY(tipoTiendaid));
+CREATE TABLE POS_DB.TipoCliente(
+	tipoClienteId INT NOT NULL,
+	codigoCliente varchar(10) NULL,
+	nombre varchar(50) NULL
+	descripcion varchar(200) NULL,
+	PRIMARY KEY(tipoClienteId));
+CREATE TABLE POS_DB.TipoRecibo(
+	tipoReciboId INT NOT NULL,
+	codigoTipoRecibo varchar(10) NULL,
+	descripcion varchar(200) NULL,
+	PRIMARY KEY(tipoReciboId));
+CREATE TABLE POS_DB.FormaPago(
+	formaPagoId INT NOT NULL,
+	codigoFormaPago varchar(10) NULL,
+	descripcion varchar(200) NULL,
+	estadoFormaPago TINYINT(2) NULL,
+	empleadoIdCreacion INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NULL,
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(formaPagoId));
+CREATE TABLE POS_DB.Tienda(
+	tiendaId INT NOT NULL,
+	codigoPais varchar(10) NULL,
+	nombre varchar(50) NULL,
+	nombreComercial varchar(50) NULL,
+	numeroDocumento varchar(11) NULL,
+	direccion1 varchar(200) NULL,
+	direccion2 varchar(200) NULL,
+	direccion3 varchar(200) NULL,
+	distrito varchar(50) NULL,
+	ciudad varchar(50) NULL,
+	paisId INT NOT NULL,#LLAVE FORANEA
+    tipoTiendaId INT NOT NULL,#LLAVE FORANEA
+    telefono1 varchar(15) NULL,
+    telefono2 varchar(15) NULL,
+    telefono3 varchar(15) NULL,
+    correoElectronico  varchar(100) NULL,
+    facturadorId INT NOT NULL,#LLAVE FORANEA
+    estadoTienda TINYINT(2) NULL,
+    empleadoId INT NULL,#LLAVE FORANEA
+    fechaCreacion varchar(21) NULL,
+    fechaUltimaActualizacion varchar(21) NULL,
+    PRIMARY KEY(tiendaId));
+CREATE TABLE POS_DB.Empleado(
+	empleadoId varchar(40) NOT NULL,
+	codigoEmpleado varchar(40) NULL,
+	nombre varchar(50) NULL,
+	apellidoMaterno varchar(50) NULL,
+	apellidoPaterno varchar(50) NULL,
+	direccion varchar(200) NULL,
+	distrito varchar(50) NULL,
+	paisId INT NOT NULL,#LLAVE FORANEA
+	password varchar(20) NULL,
+	tipoDocumento varchar(20) NULL,
+	numeroDocumento varchar(15) NULL,
+	tiendaId INT NOT NULL,#LLAVE FORANEA
+	tiendaAsignadoId INT NULL,
+	correoElectronico varchar(100) NULL,
+	estadoEmpleado TINYINT(2) NULL,
+	empleadoIdCreacion INT NOT NULL,#LLAVE FORANEA
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NOT NULL,#LLAVE FORANEA
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(empleadoId));
+CREATE TABLE POS_DB.CajaRegistradora(
+	cajaRegistradoraId INT NOT NULL,
+	codigoCajaRegistradora varchar(10) NULL,
+	tiendaId INT NOT NULL,#LLAVE FORANEA
+	numeroSerie varchar(40) NULL,
+	codigoImpresora varchar(40) NULL,
+	empleadoIdCreacion INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NULL,
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(cajaRegistradoraId));
+CREATE TABLE POS_DB.Cliente(
+	clienteId varchar(40) NOT NULL,
+	nombre varchar(50) NULL,
+	apellidoMaterno varchar(50) NULL,
+	apellidoPaterno varchar(50) NULL,
+	genero varchar(2) NULL,
+	tipoDocumento varchar(3) NULL,
+	numeroDocumento varchar(15) NULL,
+	correoElectronico varchar(100) NULL,
+	direccion varchar(200) NULL,
+	distrito varchar(50) NULL,
+	ciudad varchar(50) NULL,
+	paisId INT NULL,#LLAVE FORANEA
+	tipoClienteId INT NULL,#LLAVE FORANEA
+	empleadoIdCreacion INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NULL,
+	fechaModificacion varchar(21) NULL,
+	estadoCliente TINYINT(2) NULL,
+	tiendaId INT NULL,#LLAVE FORANEA
+	PRIMARY KEY(clienteId));
+CREATE TABLE POS_DB.Recibo(
+	reciboId varchar(40) NOT NULL,
+	tiendaId INT NULL,
+	clienteId INT NULL,
+	empleadoId INT NULL,
+	empleadoVendedorId INT NULL,
+	tipoReciboId INT NULL,
+	cajaRegistradoraId INT NULL,
+	facturadorId INT NULL,
+	numeroDocumento varchar(15) NULL,
+	estadoRecibo TINYINT(2) NULL,
+	subTotal DECIMAL(18,5) NULL,
+	descuentoTotal DECIMAL(18,5) NULL,
+	descuentoTotalPorcentaje INT NULL,
+	impuesto DECIMAL(18,5) NULL,
+	impuestoPorcentaje INT NULL,
+	total DECIMAL(18,5) NULL,
+	subTotalOtraMoneda DECIMAL(18,5) NULL,
+	descuentoTotalOtraMoneda DECIMAL(18,5) NULL,
+	descuentoTotalOtraMonedaPorcentaje
+	impuestoOtraMoneda DECIMAL(18,5) NULL,
+	impuestoOtraMonedaPorcentaje INT NULL,
+	total DECIMAL(18,5) NULL,
+	observaciones varchar(500) NOT NULL,
+	referenciaReciboId INT NULL,#LLAVE FORANEA
+	empleadoIdCreacion INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NULL,
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(reciboId));
+CREATE TABLE POS_DB.DetalleRecibo(
+	detalleReciboId INT NOT NULL,
+	reciboId INT NULL,#LLAVE FORANEA
+	numeroOrden INT NULL,
+	categoriaProductoId INT NULL, #LLAVE FORANEA
+	nombreProducto varchar(50) NOT NULL,
+	precioProductoUnitario DECIMAL(18,5) NULL,
+	impuestoProductoUnitario DECIMAL(18,5) NULL,
+	impuestoProductoPorcentaje INT NULL,
+	descuentoProductoUnitario DECIMAL(18,5) NULL,
+	descuentoProductoUnitarioPorcentaje INT NULL,
+	cantidad INT NULL,
+	precioProductoTotal DECIMAL(18,5) NULL,
+	impuestoProductoTotal DECIMAL(18,5) NULL,
+	impuestoProductoTotalPorcentaje INT NULL,
+	descuentoProductoTotal DECIMAL(18,5) NULL,
+	descuentoProductoTotalPorcentaje INT NULL,
+	PRIMARY KEY(detalleReciboId));
+CREATE TABLE POS_DB.Producto(
+	productoId varchar(40) NOT NULL,
+	estadoProducto TINYINT(2) NULL,
+	codigoProducto varchar(20) NULL,
+	descripcion varchar(200) NULL,
+	empleadoIdCreacion INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NULL,
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(productoId));
+CREATE TABLE POS_DB.LoteProducto(
+	loteProductoId INT NOT NULL,
+	codigoLoteProducto varchar(20) NULL,
+	descripcion varchar(200) NULL,
+	fechaInicio varchar(21) NULL,
+	fechaFin varchar(21) NULL,
+	empleadoIdCreacion INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NULL,
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(loteProductoId));
+CREATE TABLE POS_DB.CategoriaProducto(
+	categoriaProductoId varchar(40) NOT NULL,
+	descripcion varchar(200) NULL,
+	codigoCategoriaProductoId
+	marcaProductoId INT NULL,#LLAVE FORANEA
+	colorProductoId INT NULL,#LLAVE FORANEA
+	tallaProductoId INT NULL,#LLAVE FORANEA
+	productoId INT NULL,#LLAVE FORANEA
+	codigoEAN varchar(200) NULL,
+	loteProductoId INT NULL,#LLAVE FORANEA
+	codigoExterno varchar(200) NULL,
+	ancho DECIMAL(18,5) NULL,
+	alto DECIMAL(18,5) NULL,
+	empleadoIdCreacion INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NULL,
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(categoriaProductoId));
+CREATE TABLE POS_DB.PrecioProducto(
+	precioProductoId varchar(40) NOT NULL,
+	productoId INT NULL,#LLAVE FORANEA
+	precioBase DECIMAL(18,5) NULL,
+	impuesto DECIMAL(18,5) NULL,
+	margenPorcentajeVenta INT NULL,
+	PRIMARY KEY(precioProductoId));
+CREATE TABLE POS_DB.StockProducto(
+	stockProductoId INT NOT NULL,
+	tiendaId INT NULL,#LLAVE FORANEA
+	stockEnMano INT NULL,
+	stockOrdenado INT NULL,
+	enTransito INT NULL,
+	fechaSolicitud varchar(21) NULL,
+	fechaRecepcion varchar(21) NULL,
+	empleadoIdCreacion  INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion  INT NULL,
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(stockProductoId));
+CREATE TABLE POS_DB.Transferencias(
+	transferenciasId INT NOT NULL,
+	clienteId varchar(40) NOT NULL, #LLAVE FORANEA
+	codigoTranferencia varchar(20) NULL,
+	estadoTransferencia TINYINT(2) NULL,
+	tiendaOrigenId varchar(40) NOT NULL, #LLAVE FORANEA
+	tiendaDestinoId varchar(40) NOT NULL, #LLAVE FORANEA
+	empleadoIdCreacion INT NULL,
+	fechaCreacion varchar(21) NULL,
+	empleadoIdModificacion INT NULL,
+	fechaModificacion varchar(21) NULL,
+	PRIMARY KEY(transferenciasId));
+CREATE TABLE POS_DB.DetalleTransferencias(
+	detalleTransfereciasId INT NOT NULL,
+	transferenciasId varchar(40) NOT NULL,
+	numeroOrdenINT NULL,
+	categoriaProductoId(CategoriaProducto)
+	nombreProducto varchar(50) NULL,
+	cantidad INT NULL,
+	cantidadConfirmada INT NULL,
+	cantidadRechazada INT NULL,
+	precioProductoUnitario DECIMAL(18,5) NULL,
+	impuestoProductoUnitario DECIMAL(18,5) NULL,
+	impuestoProductoPorcentaje INT NULL,
+	descuentoProductoUnitario DECIMAL(18,5) NULL,
+	descuentoProductoUnitarioPorcentaje INT NULL,
+	precioProductoTotal DECIMAL(18,5) NULL,
+	impuestoProductoTotal DECIMAL(18,5) NULL,
+	impuestoProductoTotalPorcentaje INT NULL,
+	descuentoProductoTotal DECIMAL(18,5) NULL,
+	descuentoProductoTotalPorcentaje INT NULL,
+	PRIMARY KEY(detalleTransfereciasId));

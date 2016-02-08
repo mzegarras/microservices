@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorator="fragments/_Layout">
-<head>
-<title th:layout:title-pattern="#{homeController.index.title}">Back Office</title>
+<head lang="en">
 </head>
 <body>
+<p th:text="${message}"></p>
+<title th:layout:title-pattern="#{homeController.index.title}">Back Office</title>
 	<section layout:fragment="content">
 		<div class="wrapper wrapper-content animated fadeInRight">
 			<div class="row">
