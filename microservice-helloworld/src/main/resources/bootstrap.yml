@@ -10,7 +10,7 @@ spring:
       failFast: true
       name: parametros
   datasource:
-    url: jdbc:mysql://localhost:3306/pos_db?autoReconnect=true&useSSL=false
+    url: jdbc:mysql://192.168.0.100:3306/pos_db?autoReconnect=true&useSSL=false
     driverClassName : com.mysql.jdbc.Driver
     username: root
     password: root
