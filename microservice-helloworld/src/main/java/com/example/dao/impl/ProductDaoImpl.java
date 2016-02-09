@@ -5,38 +5,23 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
 
 @Repository
-public class ProductDaoImpl  extends JdbcDaoSupport implements ProductDao {
+public class ProductDaoImpl  implements ProductDao {
 
-	private SimpleJdbcCall usp_listAll;
-	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	public ProductDaoImpl(DataSource dataSource) {
-		setDataSource(dataSource);
-
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-
-		usp_listAll = new SimpleJdbcCall(getDataSource())
-				//.withCatalogName("carsofwirebd")
-				.withProcedureName("usp_getProduct")
-				.returningResultSet("results", new TestMapper())
-				.withoutProcedureColumnMetaDataAccess();
-		usp_listAll.compile();
-
-	}
+	 JdbcTemplate jdbcTemplate;
+	
 	public class TestMapper implements RowMapper<Product> {
 		@Override
 		public Product mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -51,6 +36,13 @@ public class ProductDaoImpl  extends JdbcDaoSupport implements ProductDao {
 	}
 	@Override
 	public List<Product> lstProduct() {
+		SimpleJdbcCall usp_listAll;
+		usp_listAll = new SimpleJdbcCall(jdbcTemplate.getDataSource())
+				//.withCatalogName("carsofwirebd")
+				.withProcedureName("usp_getProduct")
+				.returningResultSet("results", new TestMapper())
+				.withoutProcedureColumnMetaDataAccess();
+		usp_listAll.compile();
 		MapSqlParameterSource params = new MapSqlParameterSource();
 
 		Map<String, Object> results = usp_listAll.execute(params);
