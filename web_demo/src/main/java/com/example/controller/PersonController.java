@@ -23,4 +23,9 @@ public class PersonController {
 		
 		return "home/index";
 	}
+	
+	@RequestMapping("/")
+	public String getLogin(){
+		return "/account/signin";
+	}
 }
