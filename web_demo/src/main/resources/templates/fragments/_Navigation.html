@@ -36,10 +36,10 @@
 						<div class="logo-element">IN+</div>
 					</li>
 							<li th:class="${(controllerName eq 'DocumentsController') and (controllerAction eq 'index')} ? 'active'">
-								<a href="#" th:href="@{/documents/index}" th:text="#{navigation.menu.docventa}">Titulo1</a>
+								<a href="#" th:href="@{/documents/index}" ><i class="fa fa-print"></i> <span class="nav-label" th:text="#{navigation.menu.docventa}">Titulo1</span></a>
 							</li>
 							<li th:class="${(controllerName eq 'ProductsController') and (controllerAction eq 'index')} ? 'active'">
-								<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label" th:href="@{/products/index}" th:text="#{navigation.menu.productos}">Titulo1</span><span class="fa arrow"></span></a>
+								<a><i class="fa fa-archive"></i> <span class="nav-label"  th:text="#{navigation.menu.productos}">Titulo1</span><span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level collapse">
 									<li><a href="#" th:href="@{/products/product}" th:text="#{navigation.menu.productos.producto}">Titulo1</a></li>
 									<li><a href="#" th:href="@{/products/brand}" th:text="#{navigation.menu.productos.marca}">Titulo1</a></li>
@@ -51,26 +51,26 @@
 								</ul>
 							</li>
 							<li th:class="${(controllerName eq 'InventoryController') and (controllerAction eq 'index')} ? 'active'">
-								<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label" th:href="@{/inventory/index}" th:text="#{navigation.menu.inventarios}">Titulo1</span><span class="fa arrow"></span></a>
+								<a><i class="fa fa-stack-overflow"></i> <span class="nav-label" th:text="#{navigation.menu.inventarios}">Titulo1</span><span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level collapse">
 									<li><a href="#" th:href="@{/inventory/stock}" th:text="#{navigation.menu.inventarios.stock}">Titulo1</a></li>
 									<li><a href="#" th:href="@{/inventory/transfer}" th:text="#{navigation.menu.inventarios.transferencias}">Titulo1</a></li>
 								</ul>
 							</li>
 							<li th:class="${(controllerName eq 'ClientsController') and (controllerAction eq 'index')} ? 'active'">
-								<a href="#" th:href="@{/clients/index}" th:text="#{navigation.menu.clientes}">Titulo1</a>
+								<a href="#" th:href="@{/clients/index}" ><i class="fa fa-child"></i> <span class="nav-label" th:text="#{navigation.menu.clientes}">Titulo1</span></a>
 							</li>
 							<li th:class="${(controllerName eq 'EmployeeController') and (controllerAction eq 'index')} ? 'active'">
-								<a href="#" th:href="@{/employee/index}" th:text="#{navigation.menu.empleados}">Titulo1</a>
+								<a href="#" th:href="@{/employee/index}"><i class="fa fa-user"></i> <span class="nav-label" th:text="#{navigation.menu.empleados}">Titulo1</span></a>
 							</li>
 							<li th:class="${(controllerName eq 'StoreController') and (controllerAction eq 'index')} ? 'active'">
-								<a href="#" th:href="@{/store/index}" th:text="#{navigation.menu.tiendas}">Titulo1</a>
+								<a href="#" th:href="@{/store/index}"><i class="fa fa-bank (alias)"></i> <span class="nav-label" th:text="#{navigation.menu.tiendas}">Titulo1</span></a>
 							</li>
 							<li th:class="${(controllerName eq 'ReportsController') and (controllerAction eq 'index')} ? 'active'">
-								<a href="#" th:href="@{/reports/index}" th:text="#{navigation.menu.reportes}">Titulo1</a>
+								<a href="#" th:href="@{/reports/index}"><i class="fa fa-line-chart"></i> <span class="nav-label" th:text="#{navigation.menu.reportes}">Titulo1</span></a>
 							</li>
 							<li th:class="${(controllerName eq 'ConfigurationController') and (controllerAction eq 'index')} ? 'active'">
-								<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label" th:href="@{/configuration/index}" th:text="#{navigation.menu.configuracion}">Titulo1</span><span class="fa arrow"></span></a>
+								<a href="#" th:href="@{/configuration/index}"><i class="fa fa-gears (alias)"></i> <span class="nav-label" th:text="#{navigation.menu.configuracion}">Titulo1</span><span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level collapse">
 									<li><a href="#" th:href="@{/configuration/exchangerate}" th:text="#{navigation.menu.configuracion.tipocambio}">Titulo1</a></li>
 									<li><a href="#" th:href="@{/configuration/taxes}" th:text="#{navigation.menu.configuracion.impuestos}">Titulo1</a></li>
