@@ -3,29 +3,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-	
-	 <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    
-	<link href="../static/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{css/bootstrap.min.css}" />
-	
-	  
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link href="../static/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{css/bootstrap.min.css}" />
+
+
 </head>
 <body>
 	<!--/*  Multiple fragments may be defined in one file */-->
 	<div th:fragment="navigation">
-
-
 		<nav class="navbar-default navbar-static-side" role="navigation">
 			<div class="sidebar-collapse">
 				<ul class="nav" id="side-menu">
 					<li class="nav-header">
 						<div class="dropdown profile-element">
-							<span>
-							</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<span class="clear"> <span class="block m-t-xs"> <strong
-										class="font-bold">Back Office</strong>
-								</span> <span class="text-muted text-xs block" >Administrador<b
+							<span> </span> <a data-toggle="dropdown" class="dropdown-toggle"
+								href="#"> <span class="clear"> <span
+									class="block m-t-xs"> <strong class="font-bold">POS
+											Web</strong>
+								</span> <span class="text-muted text-xs block">Administrador<b
 										class="caret"></b></span>
 							</span>
 							</a>
@@ -36,36 +35,51 @@
 						</div>
 						<div class="logo-element">IN+</div>
 					</li>
-					
-					  <li th:class="${(controllerName eq 'CompanyController') or 
-					  				(controllerName eq 'HomeController') or 
-					  				(controllerName eq 'OperatorController') or
-					  				(controllerName eq 'TutorialController') or 
-					  				(controllerName eq 'VersionController') or 
-					  				(controllerName eq 'LocationController')} ? 'active'">
-					
-		                <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label" th:text="#{navigation.monitor.title}">Titulo1</span> <span class="fa arrow"></span></a>
-		                <ul class="nav nav-second-level">
-		                    
-		                    <li th:class="${(controllerName eq 'LocationController') and (controllerAction eq 'index')} ? 'active'"><a href="#" th:href="@{/location/index}" th:text="#{navigation.menu.ubicaciones}">Titulo1</a></li>
-<!-- 		                    <li th:class="${(controllerName eq 'OperatorController') and (controllerAction eq 'index')} ? 'active'"><a href="#" th:href="@{/operator/index}" th:text="#{navigation.menu.operadores}">Titulo1</a></li>
-		                    <li th:class="${(controllerName eq 'CompanyController') and (controllerAction eq 'index')} ? 'active'"><a href="#" th:href="@{/company/index}" th:text="#{navigation.menu.empresas}">Titulo1</a></li>
-		                    <li th:class="${(controllerName eq 'TutorialController') and (controllerAction eq 'index')} ? 'active'"><a href="#" th:href="@{/tutorial/index}" th:text="#{navigation.menu.tutoriales}">Titulo1</a></li>
-		                   	<li th:class="${(controllerName eq 'VersionController') and (controllerAction eq 'index')} ? 'active'"><a href="#" th:href="@{/version/index}" th:text="#{navigation.menu.versiones}">Titulo1</a></li> -->  
-		                </ul>
-		            </li>
-            
-					
-					
-					
-				</ul>
+							<li th:class="${(controllerName eq 'DocumentsController') and (controllerAction eq 'index')} ? 'active'">
+								<a href="#" th:href="@{/documents/index}" th:text="#{navigation.menu.docventa}">Titulo1</a>
+							</li>
+							<li th:class="${(controllerName eq 'ProductsController') and (controllerAction eq 'index')} ? 'active'">
+								<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label" th:href="@{/products/index}" th:text="#{navigation.menu.productos}">Titulo1</span><span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level collapse">
+									<li><a href="#" th:href="@{/products/product}" th:text="#{navigation.menu.productos.producto}">Titulo1</a></li>
+									<li><a href="#" th:href="@{/products/brand}" th:text="#{navigation.menu.productos.marca}">Titulo1</a></li>
+									<li><a href="#" th:href="@{/products/category}" th:text="#{navigation.menu.productos.categoria}">Titulo1</a></li>
+									<li><a href="#" th:href="@{/products/color}" th:text="#{navigation.menu.productos.color}">Titulo1</a></li>
+									<li><a href="#" th:href="@{/products/size}" th:text="#{navigation.menu.productos.talla}">Titulo1</a></li>
+									<li><a href="#" th:href="@{/products/listprice}" th:text="#{navigation.menu.productos.listraprecios}">Titulo1</a></li>
+									<li><a href="#" th:href="@{/products/promotions}" th:text="#{navigation.menu.productos.promociones}">Titulo1</a></li>
+								</ul>
+							</li>
+							<li th:class="${(controllerName eq 'InventoryController') and (controllerAction eq 'index')} ? 'active'">
+								<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label" th:href="@{/inventory/index}" th:text="#{navigation.menu.inventarios}">Titulo1</span><span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level collapse">
+									<li><a href="#" th:href="@{/inventory/stock}" th:text="#{navigation.menu.inventarios.stock}">Titulo1</a></li>
+									<li><a href="#" th:href="@{/inventory/transfer}" th:text="#{navigation.menu.inventarios.transferencias}">Titulo1</a></li>
+								</ul>
+							</li>
+							<li th:class="${(controllerName eq 'ClientsController') and (controllerAction eq 'index')} ? 'active'">
+								<a href="#" th:href="@{/clients/index}" th:text="#{navigation.menu.clientes}">Titulo1</a>
+							</li>
+							<li th:class="${(controllerName eq 'EmployeeController') and (controllerAction eq 'index')} ? 'active'">
+								<a href="#" th:href="@{/employee/index}" th:text="#{navigation.menu.empleados}">Titulo1</a>
+							</li>
+							<li th:class="${(controllerName eq 'StoreController') and (controllerAction eq 'index')} ? 'active'">
+								<a href="#" th:href="@{/store/index}" th:text="#{navigation.menu.tiendas}">Titulo1</a>
+							</li>
+							<li th:class="${(controllerName eq 'ReportsController') and (controllerAction eq 'index')} ? 'active'">
+								<a href="#" th:href="@{/reports/index}" th:text="#{navigation.menu.reportes}">Titulo1</a>
+							</li>
+							<li th:class="${(controllerName eq 'ConfigurationController') and (controllerAction eq 'index')} ? 'active'">
+								<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label" th:href="@{/configuration/index}" th:text="#{navigation.menu.configuracion}">Titulo1</span><span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level collapse">
+									<li><a href="#" th:href="@{/configuration/exchangerate}" th:text="#{navigation.menu.configuracion.tipocambio}">Titulo1</a></li>
+									<li><a href="#" th:href="@{/configuration/taxes}" th:text="#{navigation.menu.configuracion.impuestos}">Titulo1</a></li>
+								</ul>
+							</li>
+</ul>
 			</div>
 		</nav>
-
-
-
 	</div>
-
 </body>
 </html>
 

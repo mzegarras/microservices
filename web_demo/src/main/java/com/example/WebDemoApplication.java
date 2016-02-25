@@ -20,6 +20,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
+@SpringBootApplication
 public class WebDemoApplication extends WebMvcConfigurerAdapter{
 
 	public static void main(String[] args) {

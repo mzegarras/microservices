@@ -82,7 +82,7 @@
             <h3 class="font-bold text-center" th:text="#{logincontroller.login.sistema}">Unibell</h3>
             
             
-                    <form id="icheckForm" class="m-t" action="/login" method="post" th:action="@{/login}">
+                    <form id="icheckForm" class="m-t" th:action="@{/login}" method="post">
                         <div class="form-group">
                         	<label>Usuario</label>
                             <input id="username" type="text" class="form-control" th:placeholder="#{logincontroller.login.username.placeholder}" required="true" maxlength="20" autocomplete="off" name="username"/>
